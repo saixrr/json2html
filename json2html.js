@@ -1,15 +1,31 @@
+// json2html.js
 
 export default function json2html(data) {
+  // Start the HTML table with a custom attribute
+  let html = '<table data-user="saimonajigari@gmail.com">';
 
-  const columns = Array.from(new Set(data.flatMap(Object.keys)));
+  // Create the table header (with fixed columns: Name, Age, Gender)
+  html += "<thead><tr><th>Name</th><th>Age</th><th>Gender</th></tr></thead>";
+  html += "<tbody>";
 
-  const headerHtml = `<thead><tr>${columns.map(col => `<th>${col}</th>`).join('')}</tr></thead>`;
+  data.forEach((item) => {
+    html += "<tr>";
 
-  const bodyHtml = `<tbody>${
-    data.map(row => 
-      `<tr>${columns.map(col => `<td>${row[col] !== undefined ? row[col] : ''}</td>`).join('')}</tr>`
-    ).join('')
-  }</tbody>`;
+    
+    html += `<td>${item.Name}</td>`;
+    html += `<td>${item.Age}</td>`;
 
-  return `<table data-user="saimonajigari@gmail.com">${headerHtml}${bodyHtml}</table>`;
+
+    if (item.Gender) {
+      html += `<td>${item.Gender}</td>`;
+    } else {
+      html += "<td></td>";
+    }
+
+    html += "</tr>";
+  });
+
+  html += "</tbody></table>";
+
+  return html; // Return the generated HTML string
 }
